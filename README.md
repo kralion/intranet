@@ -1,1 +1,1 @@
-# Kindranet
+# Kindranet | *Educational Intranet*
