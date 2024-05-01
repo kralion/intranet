@@ -85,6 +85,7 @@ model User {
   password String
   role     Role
   Student  Student[]
+  Teacher Teacher[]
 }
 
 model Student {
@@ -100,5 +101,170 @@ model Student {
   active  Boolean @default(true)
   createdAt     DateTime
   idUser String
+  Enrollment Enrollment[]
+  Score  Score[]
   user    User   @relation(fields: [idUser], references: [id])
+}
+
+
+
+model Teacher{
+  id      String @id @default(uuid())
+  code    String
+  name    String
+  surname String
+  dni     String
+  dateOfBirth   DateTime
+  gender  String
+  city    String
+  address String
+  grade String
+  email  String
+  phone String
+  createdAt     DateTime
+  idUser String
+  Teacher_level_detail_course Teacher_level_detail_course[]
+  user    User   @relation(fields: [idUser], references: [id])
+}
+
+model Tutor{
+  id      String @id @default(uuid())
+  type_relation String
+  name    String
+  surname String
+  dni     String
+  dateOfBirth   DateTime
+  gender  String
+  civil_status String
+  city    String
+  address String
+  active  Boolean @default(true)
+  createdAt     DateTime
+  Enrollment Enrollment[]
+}
+
+model Academic_period{
+  id  String @id @default(uuid())
+  description String
+  start_date DateTime
+  end_date DateTime
+  active Boolean @default(true)
+  createdAt     DateTime
+  Level Level[]
+}
+
+model Level{
+  id String @id @default(uuid())
+  description_level String
+  description_shift String
+  start_time DateTime
+  end_time DateTime
+  active Boolean @default(true)
+  createdAt     DateTime
+  idAcademicPeriodic String
+  Level_detail Level_detail[]
+  academic_period     Academic_period   @relation(fields: [idAcademicPeriodic], references: [id])
+}
+
+model Grade_section{
+  id String @id @default(uuid())
+  description_grade String
+  description_section String
+  active Boolean @default(true)
+  createdAt     DateTime
+  Level_detail Level_detail[]
+}
+
+model Level_detail{
+  id  String @id @default(uuid())
+  total_vacancies Int[]
+  vacancies_field Int[]
+  active Boolean @default(true)
+  createdAt     DateTime
+  idLevel String
+  idGradeSection String
+  Enrollment Enrollment[]
+  Level_detail_course Level_detail_course[]
+  level     Level   @relation(fields: [idLevel], references: [id])
+  grade_section    Grade_section  @relation(fields: [idGradeSection], references: [id])
+}
+
+model Enrollment{
+  id      String @id @default(uuid())
+  code    String
+  situtation String
+  institution_of_origin String
+  is_repetitive String
+  active  Boolean @default(true)
+  createdAt     DateTime
+  idStudent String
+  idTutor String
+  idLevelDetails String
+  student     Student   @relation(fields: [idStudent], references: [id])
+  tutor     Tutor   @relation(fields: [idTutor], references: [id])
+  level_detail Level_detail   @relation(fields: [idLevelDetails], references: [id])
+  
+}
+
+model Course{
+  id      String @id @default(uuid())
+  description String
+  active  Boolean @default(true)
+  createdAt     DateTime
+  Level_detail_course Level_detail_course[]
+}
+
+model Level_detail_course{
+  id      String @id @default(uuid())
+  active  Boolean @default(true)
+  createdAt     DateTime
+  idLevelDetail String
+  idCourse String
+  Schedule Schedule[]
+  Teacher_level_detail_course Teacher_level_detail_course[]
+  level_detail   Level_detail   @relation(fields: [idLevelDetail], references: [id])
+  course   Course   @relation(fields: [idCourse], references: [id])
+}
+
+model Schedule{
+  id String @id @default(uuid())
+  day DateTime
+  start_time DateTime
+  end_time DateTime
+  active Boolean @default(true)
+  createdAt     DateTime
+  idLevelDetailCourse String
+  level_detail_course   Level_detail_course   @relation(fields: [idLevelDetailCourse], references: [id])
+}
+
+model Teacher_level_detail_course{
+  id String @id @default(uuid())
+  active Boolean @default(true)
+  createdAt     DateTime
+  idTeacher String
+  idLevelDetailCourse String
+  Curriculum Curriculum[]
+  level_detail_course   Level_detail_course   @relation(fields: [idLevelDetailCourse], references: [id])
+  teacher   Teacher  @relation(fields: [idTeacher], references: [id])
+}
+
+model Curriculum{
+  id String @id @default(uuid())
+  description String
+  active Boolean @default(true)
+  createdAt     DateTime
+  idTeacherLevelDetailCourse String
+   Score  Score[]
+  teacher_level_detail_course  Teacher_level_detail_course  @relation(fields: [idTeacherLevelDetailCourse], references: [id])
+}
+
+model Score{
+  id String @id @default(uuid())
+  score String
+  active Boolean @default(true)
+  createdAt     DateTime
+  idCurriculim String
+  idStudent String
+  curriculum Curriculum  @relation(fields: [idCurriculim], references: [id])
+  student Student  @relation(fields: [idStudent], references: [id])
 }
