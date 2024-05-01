@@ -1,18 +1,20 @@
-import Image from "next/image";
-import Link from "next/link";
-
+import ThemeToogle from "@/components/theme-toggle";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
+import Image from "next/image";
+import Link from "next/link";
 
-export function LoginPage() {
+export default function LoginPage() {
   return (
-    <div className="w-full lg:grid lg:min-h-[600px] lg:grid-cols-2 xl:min-h-[800px]">
+    <div className="w-full lg:grid  lg:grid-cols-2">
       <div className="flex items-center justify-center py-12">
-        <div className="mx-auto grid w-[350px] gap-6">
+        <div className="mx-auto grid w-[350px] gap-10">
           <div className="grid gap-2 text-center">
-            <h1 className="text-3xl font-bold">Inicio de Sesión</h1>
-            <p className="text-balance text-muted-foreground">
+            <h1 className="text-3xl font-bold tracking-tight">
+              Inicio de Sesión
+            </h1>
+            <p className="text-balance text-sm text-muted-foreground">
               Ingresa tus credenciales para acceder al sistema
             </p>
           </div>
@@ -30,33 +32,36 @@ export function LoginPage() {
               <div className="flex items-center">
                 <Label htmlFor="password">Password</Label>
                 <Link
-                  href="/forgot-password"
-                  className="ml-auto inline-block text-sm underline"
+                  href="#"
+                  className="ml-auto inline-block text-sm underline hover:opacity-80"
                 >
                   Olvidaste tu contraseña?
                 </Link>
               </div>
-              <Input id="password" type="password" required />
+              <Input
+                id="password"
+                placeholder="*********"
+                type="password"
+                required
+              />
             </div>
             <Button type="submit" className="w-full">
               Ingresar
             </Button>
           </div>
-          <div className="mt-4 text-center text-sm">
-            No tienes una cuenta?{" "}
-            <Link href="/auth/signup" className="underline">
-              Crear Cuenta
-            </Link>
-          </div>
         </div>
       </div>
-      <div className="hidden bg-muted lg:block">
+      <div className="relative hidden bg-muted lg:block">
+        <div></div>
+        <div className="absolute bottom-5 right-5 z-10">
+          <ThemeToogle />
+        </div>
         <Image
-          src="/placeholder.svg"
+          src="/authentication-dark.jpg"
           alt="Image"
           width="1920"
           height="1080"
-          className="h-full w-full object-cover dark:brightness-[0.2] dark:grayscale"
+          className="h-screen w-full object-cover dark:brightness-[0.2] dark:grayscale"
         />
       </div>
     </div>

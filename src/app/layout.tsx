@@ -1,13 +1,8 @@
 import "@/styles/globals.css";
-
-import { Inter } from "next/font/google";
-
+import { ThemeProvider } from "@/components/theme-provider";
 import { TRPCReactProvider } from "@/trpc/react";
-
-const inter = Inter({
-  subsets: ["latin"],
-  variable: "--font-sans",
-});
+import { GeistSans } from "geist/font/sans";
+import { GeistMono } from "geist/font/mono";
 
 export const metadata = {
   title: "Create T3 App",
@@ -23,13 +18,24 @@ export default function RootLayout({
   children: React.ReactNode;
 }) {
   return (
-    <html lang="en">
-      <body className={`font-sans ${inter.variable}`}>
-        <TRPCReactProvider>
-          {children}
-          {modal}
-        </TRPCReactProvider>
-        <div id="modal-root" />
+    <html
+      lang="en"
+      className={`${GeistSans.variable} ${GeistMono.variable}`}
+      suppressHydrationWarning
+    >
+      <body>
+        <ThemeProvider
+          attribute="class"
+          defaultTheme="system"
+          enableSystem
+          disableTransitionOnChange
+        >
+          <TRPCReactProvider>
+            {children}
+            {modal}
+          </TRPCReactProvider>
+          <div id="modal-root" />
+        </ThemeProvider>
       </body>
     </html>
   );
