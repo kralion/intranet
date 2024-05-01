@@ -1,5 +1,8 @@
 import React from "react";
-
-export default function Page() {
-  return <div>Page</div>;
+export default function CoursePage({
+  params: { id },
+}: {
+  params: { id: string };
+}) {
+  return <div className="card">{id}</div>;
 }

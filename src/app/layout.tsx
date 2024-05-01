@@ -17,13 +17,19 @@ export const metadata = {
 
 export default function RootLayout({
   children,
+  modal,
 }: {
+  modal: React.ReactNode;
   children: React.ReactNode;
 }) {
   return (
     <html lang="en">
       <body className={`font-sans ${inter.variable}`}>
-        <TRPCReactProvider>{children}</TRPCReactProvider>
+        <TRPCReactProvider>
+          {children}
+          {modal}
+        </TRPCReactProvider>
+        <div id="modal-root" />
       </body>
     </html>
   );
