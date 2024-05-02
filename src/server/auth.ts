@@ -85,7 +85,7 @@ export const authOptions: NextAuthOptions = {
         }
         const user = await db.user.findUnique({
           where: {
-            email: credentials.email,
+            email: credentials.email.toLowerCase(),
           },
         });
 
@@ -93,7 +93,6 @@ export const authOptions: NextAuthOptions = {
           return null;
         }
 
-        // eslint-disable-next-line @typescript-eslint/no-unsafe-call
         const matchPassword = await compare(
           credentials.password,
           user.password,

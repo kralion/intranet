@@ -10,7 +10,6 @@ const config = {
     typedRoutes: true,
   },
   images: {
-    disableStaticImages: true,
     remotePatterns: [
       {
         protocol: "https",
