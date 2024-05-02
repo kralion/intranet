@@ -1,76 +1,11 @@
-// This is your Prisma schema file,
-// learn more about it in the docs: https://pris.ly/d/prisma-schema
-
 generator client {
   provider = "prisma-client-js"
 }
 
 datasource db {
   provider = "postgresql"
-  // NOTE: When using mysql or sqlserver, uncomment the @db.Text annotations in model Account below
-  // Further reading:
-  // https://next-auth.js.org/adapters/prisma#create-the-prisma-schema
-  // https://www.prisma.io/docs/reference/api-reference/prisma-schema-reference#string
   url      = env("DATABASE_URL")
 }
-
-// model Post {
-//     id        Int      @id @default(autoincrement())
-//     name      String
-//     createdAt DateTime @default(now())
-//     updatedAt DateTime @updatedAt
-
-//     createdBy   User   @relation(fields: [createdById], references: [id])
-//     createdById String
-
-//     @@index([name])
-// }
-
-// // Necessary for Next auth
-// model Account {
-//     id                String  @id @default(cuid())
-//     userId            String
-//     type              String
-//     provider          String
-//     providerAccountId String
-//     refresh_token     String? // @db.Text
-//     access_token      String? // @db.Text
-//     expires_at        Int?
-//     token_type        String?
-//     scope             String?
-//     id_token          String? // @db.Text
-//     session_state     String?
-//     user              User    @relation(fields: [userId], references: [id], onDelete: Cascade)
-
-//     @@unique([provider, providerAccountId])
-// }
-
-// model Session {
-//     id           String   @id @default(cuid())
-//     sessionToken String   @unique
-//     userId       String
-//     expires      DateTime
-//     user         User     @relation(fields: [userId], references: [id], onDelete: Cascade)
-// }
-
-// model User {
-//     id            String    @id @default(cuid())
-//     name          String?
-//     email         String?   @unique
-//     emailVerified DateTime?
-//     image         String?
-//     accounts      Account[]
-//     sessions      Session[]
-//     posts         Post[]
-// }
-
-// model VerificationToken {
-//     identifier String
-//     token      String   @unique
-//     expires    DateTime
-
-//     @@unique([identifier, token])
-// }
 
 enum Role {
   ADMIN
@@ -78,27 +13,189 @@ enum Role {
   STUDENT
 }
 
-//PK → @id
 model User {
   id       String    @id @default(uuid())
   email    String    @unique
   password String
   role     Role
-  Student  Student[]
+  student  Student[]
+  teacher  Teacher[]
 }
 
 model Student {
-  id      String @id @default(uuid())
-  code    String
-  name    String
-  surname String
-  dni     String
-  dateOfBirth   DateTime
-  gender  String
-  city    String
-  address String
-  active  Boolean @default(true)
-  createdAt     DateTime
-  idUser String
-  user    User   @relation(fields: [idUser], references: [id])
+  id            String       @id @default(uuid())
+  code          String
+  name          String
+  surname       String
+  dni           String
+  date_of_birth DateTime
+  gender        String
+  city          String
+  address       String
+  active        Boolean      @default(true)
+  created_at    DateTime
+  id_user       String
+  enrollment    Enrollment[]
+  score         Score[]
+  user          User         @relation(fields: [id_user], references: [id])
+}
+
+model Teacher {
+  id                          String                        @id @default(uuid())
+  code                        String
+  name                        String
+  surname                     String
+  dni                         String
+  date_of_birth               DateTime
+  gender                      String
+  city                        String
+  address                     String
+  grade                       String
+  email                       String
+  phone                       String
+  created_at                  DateTime
+  id_user                     String
+  teacher_level_detail_course Teacher_level_detail_course[]
+  user                        User                          @relation(fields: [id_user], references: [id])
+}
+
+model Tutor {
+  id            String       @id @default(uuid())
+  type_relation String
+  name          String
+  surname       String
+  dni           String
+  date_of_birth DateTime
+  gender        String
+  civil_status  String
+  city          String
+  address       String
+  active        Boolean      @default(true)
+  created_at    DateTime
+  enrollment    Enrollment[]
+}
+
+model Academic_period {
+  id          String   @id @default(uuid())
+  description String
+  start_date  DateTime
+  end_date    DateTime
+  active      Boolean  @default(true)
+  created_at  DateTime
+  level       Level[]
+}
+
+model Level {
+  id                   String          @id @default(uuid())
+  description_level    String
+  description_shift    String
+  start_time           DateTime
+  end_time             DateTime
+  active               Boolean         @default(true)
+  createdAt            DateTime
+  id_academic_periodic String
+  level_detail         Level_detail[]
+  academic_period      Academic_period @relation(fields: [id_academic_periodic], references: [id])
+}
+
+model Grade_section {
+  id                  String         @id @default(uuid())
+  description_grade   String
+  description_section String
+  active              Boolean        @default(true)
+  created_at          DateTime
+  level_detail        Level_detail[]
+}
+
+model Level_detail {
+  id                  String                @id @default(uuid())
+  total_vacancies     Int[]
+  vacancies_field     Int[]
+  active              Boolean               @default(true)
+  created_at          DateTime
+  id_level            String
+  id_grade_section    String
+  enrollment          Enrollment[]
+  level_detail_course Level_detail_course[]
+  level               Level                 @relation(fields: [id_level], references: [id])
+  grade_section       Grade_section         @relation(fields: [id_grade_section], references: [id])
+}
+
+model Enrollment {
+  id                    String       @id @default(uuid())
+  code                  String
+  situation             String
+  institution_of_origin String
+  is_repetitive         String
+  active                Boolean      @default(true)
+  created_at            DateTime
+  id_student            String
+  id_tutor              String
+  id_level_details      String
+  student               Student      @relation(fields: [id_student], references: [id])
+  tutor                 Tutor        @relation(fields: [id_tutor], references: [id])
+  level_detail          Level_detail @relation(fields: [id_level_details], references: [id])
+}
+
+model Course {
+  id                  String                @id @default(uuid())
+  description         String
+  active              Boolean               @default(true)
+  created_at          DateTime
+  level_detail_course Level_detail_course[]
+}
+
+model Level_detail_course {
+  id                          String                        @id @default(uuid())
+  active                      Boolean                       @default(true)
+  created_at                  DateTime
+  id_level_detail             String
+  id_course                   String
+  schedule                    Schedule[]
+  teacher_level_detail_course Teacher_level_detail_course[]
+  level_detail                Level_detail                  @relation(fields: [id_level_detail], references: [id])
+  course                      Course                        @relation(fields: [id_course], references: [id])
+}
+
+model Schedule {
+  id                     String              @id @default(uuid())
+  day                    DateTime
+  start_time             DateTime
+  end_time               DateTime
+  active                 Boolean             @default(true)
+  created_at             DateTime
+  id_level_detail_course String
+  level_detail_course    Level_detail_course @relation(fields: [id_level_detail_course], references: [id])
+}
+
+model Teacher_level_detail_course {
+  id                     String              @id @default(uuid())
+  active                 Boolean             @default(true)
+  created_at             DateTime
+  id_teacher             String
+  id_level_detail_course String
+  curriculum             Curriculum[]
+  level_detail_course    Level_detail_course @relation(fields: [id_level_detail_course], references: [id])
+  teacher                Teacher             @relation(fields: [id_teacher], references: [id])
+}
+
+model Curriculum {
+  id                             String                      @id @default(uuid())
+  description                    String
+  active                         Boolean                     @default(true)
+  created_at                     DateTime
+  id_teacher_level_detail_course String
+  score                          Score[]
+  teacher_level_detail_course    Teacher_level_detail_course @relation(fields: [id_teacher_level_detail_course], references: [id])
+}
+
+model Score {
+  id            String     @id @default(uuid())
+  score         String
+  active        Boolean    @default(true)
+  created_at    DateTime
+  id_curriculum String
+  id_student    String
+  curriculum    Curriculum @relation(fields: [id_curriculum], references: [id])
+  student       Student    @relation(fields: [id_student], references: [id])
 }
