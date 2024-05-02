@@ -1,13 +1,14 @@
 import AppLogo from "@/assets/images/app-logo.png";
+import { BackgroundGradientAnimation } from "@/components/background-gradient-animation";
 import { MoveRight } from "lucide-react";
 import Link from "next/link";
 
 export default function Home() {
   return (
-    <div className="flex  w-full items-center justify-between p-6">
+    <BackgroundGradientAnimation>
       <div>
         <img
-          className="filter-none dark:invert dark:filter"
+          className="absolute left-8 top-8 z-10 filter-none dark:invert dark:filter"
           src={AppLogo.src}
           alt="Logo"
           width="200"
@@ -15,11 +16,16 @@ export default function Home() {
         />
       </div>
       <Link href="/auth/login">
-        <button className="animate-buttonheartbeat m-9 flex items-center rounded-sm bg-neutral-800 px-4 py-2 text-sm  text-white dark:bg-white dark:text-neutral-800">
+        <button className="animate-buttonheartbeat absolute right-8 top-10 z-10 flex items-center rounded-sm bg-neutral-800 px-4 py-2 text-sm text-white  hover:opacity-90  dark:bg-white dark:text-neutral-800">
           Iniciar sesión
           <MoveRight className="ml-2 h-4 w-4" />
         </button>
       </Link>
-    </div>
+      <div className="pointer-events-none absolute inset-0 z-50 flex items-center justify-center px-4 text-center text-3xl font-bold text-white md:text-4xl lg:text-7xl">
+        <p className="bg-gradient-to-b from-white/90 to-white/30 bg-clip-text px-36 text-transparent drop-shadow-2xl">
+          Educational Intranet Software
+        </p>
+      </div>
+    </BackgroundGradientAnimation>
   );
 }
