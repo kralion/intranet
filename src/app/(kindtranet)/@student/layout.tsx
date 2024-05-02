@@ -1,4 +1,4 @@
-import { getServerAuthSession } from "@/server/auth";
+import Navbar from "@/components/_design_t/shared/navbar";
 import React from "react";
 // DOCS: https://nextjs.org/docs/app/building-your-application/routing/parallel-routes#slots
 
@@ -7,11 +7,10 @@ export default async function Page({
 }: {
   children: React.ReactNode;
 }) {
-  const session = await getServerAuthSession();
   return (
-    <div>
+    <>
+      <Navbar />
       {children}
-      {session ? <div>Authenticated</div> : <div>Not authenticated</div>}
-    </div>
+    </>
   );
 }

@@ -1,7 +1,5 @@
 "use client";
 
-import * as React from "react";
-import { cn } from "@/lib/utils";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Button } from "@/components/ui/button";
 import {
@@ -11,7 +9,6 @@ import {
   CommandInput,
   CommandItem,
   CommandList,
-  CommandSeparator,
 } from "@/components/ui/command";
 import {
   Dialog,
@@ -20,7 +17,6 @@ import {
   DialogFooter,
   DialogHeader,
   DialogTitle,
-  DialogTrigger,
 } from "@/components/ui/dialog";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
@@ -36,28 +32,25 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
-import { CheckIcon, ChevronsUpDown, CirclePlus } from "lucide-react";
+import { cn } from "@/lib/utils";
+import { CheckIcon, ChevronsUpDown } from "lucide-react";
+import * as React from "react";
 
 const groups = [
   {
-    label: "Personal Account",
+    label: "Trimestres",
     teams: [
       {
-        label: "Alicia Koch",
-        value: "personal",
-      },
-    ],
-  },
-  {
-    label: "Teams",
-    teams: [
-      {
-        label: "Acme Inc.",
-        value: "acme-inc",
+        label: "1° Trimestre",
+        value: "1",
       },
       {
-        label: "Monsters Inc.",
-        value: "monsters",
+        label: "2° Trimestre",
+        value: "2",
+      },
+      {
+        label: "3° Trimestre",
+        value: "3",
       },
     ],
   },
@@ -104,7 +97,7 @@ export default function CourseSwitcher({ className }: TeamSwitcherProps) {
         <PopoverContent className="w-[200px] p-0">
           <Command>
             <CommandList>
-              <CommandInput placeholder="Buscar asignatura..." />
+              <CommandInput placeholder="Buscar trimestre..." />
               <CommandEmpty>No team found.</CommandEmpty>
               {groups.map((group) => (
                 <CommandGroup key={group.label} heading={group.label}>
@@ -138,22 +131,6 @@ export default function CourseSwitcher({ className }: TeamSwitcherProps) {
                   ))}
                 </CommandGroup>
               ))}
-            </CommandList>
-            <CommandSeparator />
-            <CommandList>
-              <CommandGroup>
-                <DialogTrigger asChild>
-                  <CommandItem
-                    onSelect={() => {
-                      setOpen(false);
-                      setShowNewTeamDialog(true);
-                    }}
-                  >
-                    <CirclePlus className="mr-2 h-5 w-5" />
-                    Create Team
-                  </CommandItem>
-                </DialogTrigger>
-              </CommandGroup>
             </CommandList>
           </Command>
         </PopoverContent>

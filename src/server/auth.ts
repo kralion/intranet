@@ -8,7 +8,8 @@ import {
 import { type Adapter } from "next-auth/adapters";
 import CredentialsProvider from "next-auth/providers/credentials";
 import { db } from "@/server/db";
-import { compare } from "bcrypt";
+//TODO: Use encrypted passwords in the database
+// import { compare } from "bcrypt";
 
 /**
  * Module augmentation for `next-auth` types. Allows us to add custom properties to the `session`
@@ -17,7 +18,7 @@ import { compare } from "bcrypt";
  * @see https://next-auth.js.org/getting-started/typescript#module-augmentation
  */
 
-enum Rol {
+enum Role {
   STUDENT = "STUDENT",
   ADMIN = "ADMIN",
   TEACHER = "TEACHER",
@@ -29,14 +30,14 @@ declare module "next-auth" {
       id: string;
       email: string;
       password: string;
-      rol: Rol;
+      role: Role;
     } & DefaultSession["user"];
   }
 
   interface User {
+    id: string;
     email: string;
-    password: string;
-    rol: Rol;
+    role: Role;
   }
 }
 
@@ -49,13 +50,18 @@ export const authOptions: NextAuthOptions = {
   pages: {
     signIn: "/",
   },
+  session: {
+    strategy: "jwt",
+  },
+  secret: process.env.NEXTAUTH_SECRET,
   callbacks: {
     async jwt({ token, user }) {
       if (user) {
         return {
           ...token,
+          id: user.id,
           email: user.email,
-          rol: user.rol,
+          role: user.role,
         };
       }
       return token;
@@ -65,8 +71,9 @@ export const authOptions: NextAuthOptions = {
         ...session,
         user: {
           ...session.user,
+          id: token.id,
           email: token.email,
-          rol: token.rol,
+          role: token.role,
         },
       };
     },
@@ -83,7 +90,7 @@ export const authOptions: NextAuthOptions = {
         if (!credentials?.email || !credentials?.password) {
           return null;
         }
-        const user = await db.user.findUnique({
+        const user = await db.user.findFirst({
           where: {
             email: credentials.email.toLowerCase(),
           },
@@ -93,20 +100,21 @@ export const authOptions: NextAuthOptions = {
           return null;
         }
 
-        const matchPassword = await compare(
-          credentials.password,
-          user.password,
-        );
-        if (!matchPassword) {
-          return null;
-        }
+        // const matchPassword = await compare(
+        //   credentials.password,
+        //   user.password,
+        // );
+        // if (!matchPassword) {
+        //   return null;
+        // }
         if (credentials.password !== user.password) {
           return null;
         }
-
+        console.log("USER FOUND", user);
         return {
-          ...user,
-          rol: user.role as Rol,
+          email: user.email,
+          id: user.id,
+          role: user.role as Role,
         };
       },
     }),

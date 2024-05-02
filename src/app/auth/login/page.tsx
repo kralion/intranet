@@ -65,7 +65,7 @@ export default function Page() {
                   <div>
                     <Label>Email</Label>
                     <FormControl>
-                      <Input placeholder="intranet@hello.com" {...field} />
+                      <Input placeholder="user@mail.com" {...field} />
                     </FormControl>
                     <FormMessage className="mt-2" />
                   </div>
@@ -78,7 +78,7 @@ export default function Page() {
                   <div>
                     <Label>Email</Label>
                     <FormControl>
-                      <Input placeholder="*********" {...field} />
+                      <Input type="password" {...field} />
                     </FormControl>
                     <FormMessage className="mt-2" />
                     <Link

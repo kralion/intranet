@@ -8,7 +8,7 @@ export default function Home() {
     <BackgroundGradientAnimation>
       <div>
         <img
-          className="absolute left-8 top-8 z-10 filter-none dark:invert dark:filter"
+          className="absolute left-8 top-8 z-10  invert filter"
           src={AppLogo.src}
           alt="Logo"
           width="200"
@@ -16,7 +16,7 @@ export default function Home() {
         />
       </div>
       <Link href="/auth/login">
-        <button className="animate-buttonheartbeat absolute right-8 top-10 z-10 flex items-center rounded-sm bg-neutral-800 px-4 py-2 text-sm text-white  hover:opacity-90  dark:bg-white dark:text-neutral-800">
+        <button className="animate-buttonheartbeat absolute right-8 top-10 z-10 flex items-center rounded-sm bg-white  px-4 py-2 text-sm text-neutral-800  hover:opacity-90  ">
           Iniciar sesión
           <MoveRight className="ml-2 h-4 w-4" />
         </button>

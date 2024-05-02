@@ -3,7 +3,7 @@ import CourseSwitcher from "./courses-switcher";
 import { MainNav } from "./main-nav";
 import { UserNav } from "./user-nav";
 
-export default function Navbar() {
+export default async function Navbar() {
   return (
     <div className="hidden flex-col md:flex">
       <div className="border-b">
