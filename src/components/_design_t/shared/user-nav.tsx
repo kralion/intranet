@@ -33,7 +33,7 @@ export async function UserNav() {
         <DropdownMenuLabel className="font-normal">
           <div className="flex flex-col space-y-1">
             <p className="text-sm font-medium leading-none">
-              {session.user.email.slice(0, 5)}
+              {session.user.email.slice(0, 7)}
             </p>
             <p className="text-xs leading-none text-muted-foreground">
               {session.user.email}
@@ -53,7 +53,9 @@ export async function UserNav() {
         <DropdownMenuSeparator />
         <DropdownMenuItem>
           <SignOutButton />
-          <DropdownMenuShortcut>Ctrl + Q</DropdownMenuShortcut>
+          <DropdownMenuShortcut className="w-16 pr-0">
+            <kbd className="text-xs tracking-tighter">Ctrl+ Q</kbd>
+          </DropdownMenuShortcut>
         </DropdownMenuItem>
       </DropdownMenuContent>
     </DropdownMenu>

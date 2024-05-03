@@ -18,7 +18,7 @@ import Link from "next/link";
 import { useForm } from "react-hook-form";
 import type { z } from "zod";
 import { useState } from "react";
-import { LoaderCircle } from "lucide-react";
+import { LoaderCircle, MoveLeft } from "lucide-react";
 import { ThemeToggle } from "@/components/theme-toggle";
 export default function Page() {
   const { toast } = useToast();
@@ -105,6 +105,11 @@ export default function Page() {
             </form>
           </Form>
         </div>
+        <span className="absolute left-5 top-5 text-sm">
+          <Link href="/">
+            <MoveLeft className="hover:opacity-80 dark:text-white" />
+          </Link>
+        </span>
         <span className="absolute bottom-5 left-5 text-sm">
           <Link href="#" className="underline">
             Grublo Inc
@@ -118,10 +123,10 @@ export default function Page() {
           className="items-centar absolute right-5 top-5 z-10 flex text-xl"
         >
           <img
-            className="filter-none hover:opacity-80 dark:invert dark:filter"
-            src={AppLogo.src}
-            alt="Logo"
-            width="200"
+            className="invert filter hover:opacity-80 dark:filter-none"
+            src="https://colegioclaretiano.edu.pe/images/insignia.png"
+            alt="Logo del Colegio"
+            width="100"
             height="100"
           />
         </Link>

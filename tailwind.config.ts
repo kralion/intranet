@@ -85,6 +85,16 @@ const config = {
             transform: "scale(1)",
           },
         },
+        "skew-scroll": {
+          "0%": {
+            transform:
+              "rotatex(20deg) rotateZ(-20deg) skewX(20deg) translateZ(0) translateY(0)",
+          },
+          "100%": {
+            transform:
+              "rotatex(20deg) rotateZ(-20deg) skewX(20deg) translateZ(0) translateY(-100%)",
+          },
+        },
         moveHorizontal: {
           "0%": {
             transform: "translateX(-50%) translateY(-10%)",
@@ -128,6 +138,7 @@ const config = {
         third: "moveInCircle 40s linear infinite",
         fourth: "moveHorizontal 40s ease infinite",
         fifth: "moveInCircle 20s ease infinite",
+        "skew-scroll": "skew-scroll 20s linear infinite",
       },
     },
   },
