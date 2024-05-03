@@ -3,6 +3,7 @@ import { ThemeProvider } from "@/components/theme-provider";
 import { TRPCReactProvider } from "@/trpc/react";
 import { GeistSans } from "geist/font/sans";
 import { GeistMono } from "geist/font/mono";
+import { Toaster } from "@/components/ui/toaster";
 
 export const metadata = {
   title: "Kindranet - Educational intranet for the High Schools",
@@ -37,6 +38,7 @@ export default function RootLayout({
           </TRPCReactProvider>
           <div id="modal-root" />
         </ThemeProvider>
+        <Toaster />
       </body>
     </html>
   );

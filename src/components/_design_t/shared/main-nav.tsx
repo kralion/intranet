@@ -1,34 +1,85 @@
+import { cn } from "@/lib/utils";
+import { getServerAuthSession } from "@/server/auth";
 import Link from "next/link";
 
-import { cn } from "@/lib/utils";
+const adminLinks = [
+  {
+    href: "/users",
+    label: "Usuarios",
+  },
+  {
+    href: "/courses",
+    label: "Cursos",
+  },
+  {
+    href: "/reports",
+    label: "Reportes",
+  },
+];
 
-export function MainNav({
+const teacherLinks = [
+  {
+    href: "/dashboard",
+    label: "Dashboard",
+  },
+  {
+    href: "/dashboard",
+    label: "Reportes",
+  },
+  {
+    href: "/profile",
+    label: "Perfil",
+  },
+];
+const studentLinks = [
+  {
+    href: "/dashboard",
+    label: "Dashboard",
+  },
+  {
+    href: "/dashboard",
+    label: "Reportes",
+  },
+  {
+    href: "/profile",
+    label: "Perfil",
+  },
+];
+
+enum Role {
+  STUDENT = "STUDENT",
+  ADMIN = "ADMIN",
+  TEACHER = "TEACHER",
+}
+
+export async function MainNav({
   className,
   ...props
 }: React.HTMLAttributes<HTMLElement>) {
+  const session = await getServerAuthSession();
+  const links =
+    (session?.user.role as Role) === Role.ADMIN
+      ? adminLinks
+      : (session?.user.role as Role) === Role.TEACHER
+        ? teacherLinks
+        : studentLinks;
+
   return (
     <nav
       className={cn("flex items-center space-x-4 lg:space-x-6", className)}
       {...props}
     >
-      <Link
-        href="/report"
-        className="text-sm font-medium transition-colors hover:text-primary"
-      >
-        Reportes
-      </Link>
-      <Link
-        href="/examples/dashboard"
-        className="text-sm font-medium text-muted-foreground transition-colors hover:text-primary"
-      >
-        Asignaturas
-      </Link>
-      <Link
-        href="/examples/dashboard"
-        className="text-sm font-medium text-muted-foreground transition-colors hover:text-primary"
-      >
-        Calificaciones
-      </Link>
+      {links.map((link) => {
+        return (
+          <Link
+            key={link.href}
+            href={link.href}
+            className="text-sm font-medium text-muted-foreground hover:text-muted-foreground"
+          >
+            {link.label}
+          </Link>
+        );
+      })}
     </nav>
   );
 }

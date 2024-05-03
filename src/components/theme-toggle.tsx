@@ -2,7 +2,7 @@
 import { Moon, Sun } from "lucide-react";
 import { useTheme } from "next-themes";
 import { Button } from "./ui/button";
-export default function ThemeToggle() {
+export function ThemeToggle() {
   const { theme, setTheme } = useTheme();
 
   function handleThemeToggle() {
@@ -21,5 +21,19 @@ export default function ThemeToggle() {
         <Moon size={24} className="text-white hover:text-black" />
       )}
     </Button>
+  );
+}
+
+export function ThemeToggleLarger() {
+  const { theme, setTheme } = useTheme();
+
+  function handleThemeToggle() {
+    setTheme(theme === "dark" ? "light" : "dark");
+  }
+
+  return (
+    <span className="w-full" onClick={handleThemeToggle}>
+      {theme === "dark" ? "Modo Claro" : "Modo Oscuro"}
+    </span>
   );
 }

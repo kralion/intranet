@@ -8,8 +8,7 @@ import {
 import { type Adapter } from "next-auth/adapters";
 import CredentialsProvider from "next-auth/providers/credentials";
 import { db } from "@/server/db";
-//TODO: Use encrypted passwords in the database
-// import { compare } from "bcrypt";
+import { compare } from "bcryptjs";
 
 /**
  * Module augmentation for `next-auth` types. Allows us to add custom properties to the `session`
@@ -90,7 +89,7 @@ export const authOptions: NextAuthOptions = {
         if (!credentials?.email || !credentials?.password) {
           return null;
         }
-        const user = await db.user.findFirst({
+        const user = await db.user.findUnique({
           where: {
             email: credentials.email.toLowerCase(),
           },
@@ -99,18 +98,15 @@ export const authOptions: NextAuthOptions = {
         if (!user) {
           return null;
         }
-
-        // const matchPassword = await compare(
-        //   credentials.password,
-        //   user.password,
-        // );
-        // if (!matchPassword) {
-        //   return null;
-        // }
-        if (credentials.password !== user.password) {
+        // eslint-disable-next-line @typescript-eslint/no-unsafe-call
+        const matchPassword = await compare(
+          credentials.password,
+          user.password,
+        );
+        if (!matchPassword) {
           return null;
         }
-        console.log("USER FOUND", user);
+
         return {
           email: user.email,
           id: user.id,

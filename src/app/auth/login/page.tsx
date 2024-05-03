@@ -1,7 +1,6 @@
 "use client";
 import AuthenticationDark from "@/assets/images/authentication-dark.jpg";
 import AppLogo from "@/assets/images/app-logo.png";
-import ThemeToogle from "@/components/theme-toggle";
 import { Button } from "@/components/ui/button";
 import {
   Form,
@@ -12,29 +11,35 @@ import {
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { useToast } from "@/components/ui/use-toast";
-import { formSchema } from "@/schemas";
+import { loginSchema } from "@/schemas";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { signIn } from "next-auth/react";
 import Link from "next/link";
 import { useForm } from "react-hook-form";
 import type { z } from "zod";
+import { useState } from "react";
+import { LoaderCircle } from "lucide-react";
+import { ThemeToggle } from "@/components/theme-toggle";
 export default function Page() {
   const { toast } = useToast();
+  const [isLoading, setIsLoading] = useState(false);
   const form = useForm({
-    resolver: zodResolver(formSchema),
+    resolver: zodResolver(loginSchema),
     defaultValues: {
       email: "",
       password: "",
     },
   });
 
-  async function onSubmit(values: z.infer<typeof formSchema>) {
+  async function onSubmit(values: z.infer<typeof loginSchema>) {
+    setIsLoading(true);
     const result = await signIn("credentials", {
       email: values.email,
       password: values.password,
       redirect: true,
-      callbackUrl: "/profile",
+      callbackUrl: "/report",
     });
+    setIsLoading(false);
     if (result?.error) {
       toast({
         title: "Error",
@@ -91,7 +96,11 @@ export default function Page() {
                 )}
               />
               <Button type="submit" className="w-full">
-                Ingresar
+                {isLoading ? (
+                  <LoaderCircle className="h-4 w-4 animate-spin" />
+                ) : (
+                  "Ingresar"
+                )}
               </Button>
             </form>
           </Form>
@@ -117,7 +126,7 @@ export default function Page() {
           />
         </Link>
         <div className="absolute bottom-5 right-5 z-10">
-          <ThemeToogle />
+          <ThemeToggle />
         </div>
         <img
           src={AuthenticationDark.src}

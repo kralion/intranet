@@ -23,7 +23,7 @@ export default async function Page({
   }
   return (
     <>
-      {(session.user.role as Role) === Role.STUDENT
+      {(session.user.role as Role) === Role.ADMIN
         ? admin
         : (session.user.role as Role) === Role.TEACHER
           ? teacher

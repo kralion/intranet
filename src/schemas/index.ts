@@ -1,3 +1,3 @@
-import { formSchema } from "./login";
+import { loginSchema, registerSchema } from "./auth";
 
-export { formSchema };
+export { loginSchema, registerSchema };

@@ -2,7 +2,7 @@ import React from "react";
 import CourseSwitcher from "./courses-switcher";
 import { MainNav } from "./main-nav";
 import { UserNav } from "./user-nav";
-
+//TODO: Conditional rendering for the options on each element of the NavBar based on the user's role
 export default async function Navbar() {
   return (
     <div className="hidden flex-col md:flex">
