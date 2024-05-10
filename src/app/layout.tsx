@@ -14,7 +14,6 @@ export const metadata = {
 
 export default function RootLayout({
   children,
-  modal,
 }: {
   modal: React.ReactNode;
   children: React.ReactNode;
@@ -32,10 +31,7 @@ export default function RootLayout({
           enableSystem
           disableTransitionOnChange
         >
-          <TRPCReactProvider>
-            {children}
-            {modal}
-          </TRPCReactProvider>
+          <TRPCReactProvider>{children}</TRPCReactProvider>
           <div id="modal-root" />
         </ThemeProvider>
         <Toaster />
