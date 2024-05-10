@@ -66,9 +66,11 @@ type TeamSwitcherProps = PopoverTriggerProps;
 
 export default function CourseSwitcher({ className }: TeamSwitcherProps) {
   const [open, setOpen] = React.useState(false);
+  const defaultTeam = { label: "1° Trimestre", value: "1" };
+
   const [showNewTeamDialog, setShowNewTeamDialog] = React.useState(false);
   const [selectedTeam, setSelectedTeam] = React.useState<Team>(
-    groups[0].teams[0],
+    groups?.[0]?.teams?.[0] ?? defaultTeam,
   );
 
   return (
