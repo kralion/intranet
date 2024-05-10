@@ -63,6 +63,7 @@ export default function UserForm({
       {
         ...values,
         password: hashedPassword,
+        id: userId,
         role: values.role as UserRole,
       },
       {
