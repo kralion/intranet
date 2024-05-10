@@ -1,4 +1,4 @@
-import AddUserForm from "@/components/admin/users/add-user-form";
+import UserForm from "@/components/admin/users/form";
 import UsersTable from "@/components/admin/users/table";
 import React from "react";
 
@@ -7,7 +7,7 @@ export default function Page() {
     <div className="space-y-4">
       <div className="flex justify-between">
         <h1>Users</h1>
-        <AddUserForm />
+        <UserForm />
       </div>
       <UsersTable />
     </div>

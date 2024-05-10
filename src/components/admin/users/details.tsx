@@ -34,8 +34,8 @@ export function UserDetailsSheet({
         </SheetHeader>
         <div className="grid gap-4 py-4">
           <div className="grid grid-cols-4 items-center gap-4">
-            <Label htmlFor="name" className="text-right">
-              Name
+            <Label htmlFor="email" className="text-right">
+              Email
             </Label>
             <Input
               disabled
@@ -43,10 +43,19 @@ export function UserDetailsSheet({
               value={user?.email}
               className="col-span-3"
             />
+            <Label htmlFor="role" className="text-right">
+              Rol
+            </Label>
+            <Input
+              disabled
+              id="name"
+              value={user?.role}
+              className="col-span-3"
+            />
           </div>
           <div className="grid grid-cols-4 items-center gap-4">
             <Label htmlFor="username" className="text-right">
-              Username
+              Identificador
             </Label>
             <Input
               disabled
@@ -58,7 +67,7 @@ export function UserDetailsSheet({
         </div>
         <SheetFooter>
           <SheetClose asChild>
-            <Button type="submit">Close</Button>
+            <Button type="submit">Cerrar</Button>
           </SheetClose>
         </SheetFooter>
       </SheetContent>

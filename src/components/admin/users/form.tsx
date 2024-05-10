@@ -39,7 +39,7 @@ const userRoles = [
   { value: UserRole.TEACHER, label: "Teacher" },
   { value: UserRole.STUDENT, label: "Student" },
 ];
-export default function AddUserForm() {
+export default function UserForm() {
   const { toast } = useToast();
   const form = useForm<z.infer<typeof registerSchema>>({
     resolver: zodResolver(registerSchema),
@@ -50,7 +50,6 @@ export default function AddUserForm() {
   const createUserMutation = api.user.create.useMutation();
 
   async function onSubmit(values: z.infer<typeof registerSchema>) {
-    // eslint-disable-next-line @typescript-eslint/no-unsafe-call
     const hashedPassword = await hash(values.password, 10);
     await createUserMutation.mutateAsync(
       {
@@ -60,6 +59,7 @@ export default function AddUserForm() {
       },
       {
         onSuccess: (response) => {
+          form.reset();
           toast({
             title: response.message,
           });
@@ -72,7 +72,6 @@ export default function AddUserForm() {
         },
       },
     );
-    form.reset();
   }
   return (
     <Dialog
@@ -178,7 +177,7 @@ export default function AddUserForm() {
                 </div>
               )}
             />
-            <Button type="submit">
+            <Button className="w-1/3" type="submit">
               {createUserMutation.isPending ? (
                 <LucideLoader className="h-4 w-4 animate-spin" />
               ) : (

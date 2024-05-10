@@ -20,15 +20,19 @@ import { api } from "@/trpc/react";
 import { MoreHorizontal } from "lucide-react";
 import React from "react";
 import { UserDetailsSheet } from "./details";
-
+import UserForm from "./update-form";
+import { DestructiveAlertDialog } from "@/components/shared/destructive-alert";
 export default function UsersTable() {
   const [userDetailsSheetOpen, setUserDetailsSheetOpen] = React.useState(false);
+  const [userUpdateFormOpen, setUserUpdateFormOpen] = React.useState(false);
+  const [userDeleteDialogOpen, setUserDeleteDialogOpen] = React.useState(false);
+  const userDeleteMutation = api.user.delete.useMutation();
   const [userId, setUserId] = React.useState<string>("");
-  const { data: users } = api.user.getAll.useQuery();
+  const { data: users, refetch } = api.user.getAll.useQuery();
   return (
     <>
       <Table>
-        <TableCaption>A list of your recent invoices.</TableCaption>
+        <TableCaption>Lista de usuarios del sistema</TableCaption>
         <TableHeader>
           <TableRow>
             <TableHead>Email</TableHead>
@@ -54,7 +58,14 @@ export default function UsersTable() {
                     forceMount
                   >
                     <DropdownMenuGroup>
-                      <DropdownMenuItem>Editar</DropdownMenuItem>
+                      <DropdownMenuItem
+                        onSelect={() => {
+                          setUserUpdateFormOpen(true);
+                          setUserId(user.id);
+                        }}
+                      >
+                        Editar
+                      </DropdownMenuItem>
                       <DropdownMenuItem
                         onSelect={() => {
                           setUserDetailsSheetOpen(true);
@@ -63,7 +74,13 @@ export default function UsersTable() {
                       >
                         Ver Detalles
                       </DropdownMenuItem>
-                      <DropdownMenuItem className="text-red-500">
+                      <DropdownMenuItem
+                        onSelect={() => {
+                          setUserDeleteDialogOpen(true);
+                          setUserId(user.id);
+                        }}
+                        className="text-red-500"
+                      >
                         Eliminar
                       </DropdownMenuItem>
                     </DropdownMenuGroup>
@@ -78,6 +95,25 @@ export default function UsersTable() {
         open={userDetailsSheetOpen}
         onOpenChange={setUserDetailsSheetOpen}
         userId={userId}
+      />
+      <UserForm
+        open={userUpdateFormOpen}
+        onOpenChange={setUserUpdateFormOpen}
+        userId={userId}
+      />
+      <DestructiveAlertDialog
+        open={userDeleteDialogOpen}
+        onOpenChange={setUserDeleteDialogOpen}
+        title="Eliminar usuario"
+        description="¿Está seguro que desea eliminar este usuario?"
+        cancel="Cancelar"
+        actionText="Eliminar"
+        action={() => {
+          userDeleteMutation.mutate(userId);
+          void refetch();
+          setUserDetailsSheetOpen(false);
+          setUserUpdateFormOpen(false);
+        }}
       />
     </>
   );
