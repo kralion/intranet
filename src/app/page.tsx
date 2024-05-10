@@ -2,7 +2,6 @@ import AppLogo from "@/assets/images/app-logo.png";
 import { BackgroundGradientAnimation } from "@/components/background-gradient-animation";
 import Features from "@/components/landing/features";
 import ShimmerButton from "@/components/landing/shimmer-btn";
-import { Button } from "@/components/ui/button";
 import { MoveRight } from "lucide-react";
 import Link from "next/link";
 
@@ -47,7 +46,7 @@ export default function Home() {
             ))}
           </div>
           <Link className="z-10" href="/auth/login">
-            <button className="flex animate-buttonheartbeat items-center rounded-sm bg-white  px-4 py-2 text-sm text-neutral-800  hover:opacity-90  ">
+            <button className="flex animate-buttonheartbeat items-center rounded-sm bg-orange-500  px-4 py-2 text-sm text-neutral-800  hover:opacity-90  ">
               Iniciar sesión
               <MoveRight className="ml-2 h-4 w-4" />
             </button>

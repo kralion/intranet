@@ -35,7 +35,7 @@ const ShimmerButton = () => {
         scale: 1.05,
       }}
     >
-      <span className=" m-[0.125rem] cursor-pointer rounded-md bg-neutral-900 px-5 py-2 text-xl font-semibold text-white backdrop-blur-sm dark:bg-white dark:text-neutral-900">
+      <span className=" m-[0.125rem] cursor-pointer rounded-md  bg-orange-500 px-5 py-2 text-xl font-semibold text-neutral-900 backdrop-blur-sm">
         Empezar
       </span>
     </motion.button>
