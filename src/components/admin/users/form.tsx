@@ -41,17 +41,22 @@ const userRoles = [
 ];
 export default function UserForm() {
   const { toast } = useToast();
+  const utils = api.useUtils();
   const form = useForm<z.infer<typeof registerSchema>>({
     resolver: zodResolver(registerSchema),
     defaultValues: {
       role: UserRole.ADMIN,
     },
   });
-  const createUserMutation = api.user.create.useMutation();
+  const {
+    mutateAsync: createUserMutation,
+    isPending,
+    reset,
+  } = api.user.create.useMutation();
 
   async function onSubmit(values: z.infer<typeof registerSchema>) {
     const hashedPassword = await hash(values.password, 10);
-    await createUserMutation.mutateAsync(
+    await createUserMutation(
       {
         ...values,
         password: hashedPassword,
@@ -59,10 +64,11 @@ export default function UserForm() {
       },
       {
         onSuccess: (response) => {
-          form.reset();
           toast({
             title: response.message,
           });
+          reset();
+          void utils.user.invalidate();
         },
         onError: (error) => {
           toast({
@@ -72,6 +78,7 @@ export default function UserForm() {
         },
       },
     );
+    form.reset();
   }
   return (
     <Dialog
@@ -178,7 +185,7 @@ export default function UserForm() {
               )}
             />
             <Button className="w-1/3" type="submit">
-              {createUserMutation.isPending ? (
+              {isPending ? (
                 <LucideLoader className="h-4 w-4 animate-spin" />
               ) : (
                 "Registrar"

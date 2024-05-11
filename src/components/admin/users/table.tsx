@@ -108,9 +108,9 @@ export default function UsersTable() {
         description="¿Está seguro que desea eliminar este usuario?"
         cancel="Cancelar"
         actionText="Eliminar"
-        action={() => {
+        action={async () => {
           userDeleteMutation.mutate(userId);
-          void refetch();
+          await refetch();
           setUserDetailsSheetOpen(false);
           setUserUpdateFormOpen(false);
         }}
