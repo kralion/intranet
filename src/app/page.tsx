@@ -46,13 +46,13 @@ export default function Home() {
             ))}
           </div>
           <Link className="z-10" href="/auth/login">
-            <button className="flex animate-buttonheartbeat items-center rounded-sm bg-orange-500  px-4 py-2 text-sm text-neutral-800  hover:opacity-90  ">
+            <button className=" flex animate-buttonheartbeat items-center rounded-sm bg-neutral-800 px-4 py-2  text-sm text-white hover:opacity-90 dark:bg-white  dark:text-neutral-800  ">
               Iniciar sesión
               <MoveRight className="ml-2 h-4 w-4" />
             </button>
           </Link>
         </div>
-        <div className="pointer-events-none absolute inset-0 z-50 flex flex-col items-center justify-center gap-4 px-4 text-center text-3xl font-bold text-white md:text-4xl lg:text-7xl">
+        <div className="pointer-events-none absolute inset-0 z-10 flex flex-col items-center justify-center gap-4 px-4 text-center text-3xl font-bold text-white md:text-4xl lg:text-7xl">
           <p className="bg-gradient-to-b from-white/90 to-white/30 bg-clip-text px-36 text-transparent drop-shadow-2xl">
             Solución de Intranet Educativo
           </p>

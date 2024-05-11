@@ -13,18 +13,29 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import { getServerAuthSession } from "@/server/auth";
+enum Role {
+  ADMIN = "ADMIN",
+  STUDENT = "STUDENT",
+  TEACHER = "TEACHER",
+}
 
 export async function UserNav() {
   const session = await getServerAuthSession();
   if (!session) {
     return null;
   }
+  const image =
+    (session.user.role as Role) === Role.ADMIN
+      ? "https://img.icons8.com/?size=48&id=lZbMMFzEyi1c&format=png"
+      : (session.user.role as Role) === Role.STUDENT
+        ? "https://img.icons8.com/?size=48&id=mcOUoqsodz8x&format=png"
+        : "https://img.icons8.com/?size=48&id=HN83zbO5wYSH&format=png";
   return (
     <DropdownMenu>
       <DropdownMenuTrigger asChild>
         <Button variant="ghost" className="relative h-8 w-8 rounded-full">
-          <Avatar className="h-8 w-8">
-            <AvatarImage src="/avatars/01.png" alt="@shadcn" />
+          <Avatar className="h-8 w-8 rounded">
+            <AvatarImage src={image} alt="@shadcn" />
             <AvatarFallback>{session.user.role.slice(0, 2)}</AvatarFallback>
           </Avatar>
         </Button>
