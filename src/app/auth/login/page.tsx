@@ -18,7 +18,7 @@ import Link from "next/link";
 import { useForm } from "react-hook-form";
 import type { z } from "zod";
 import { useState } from "react";
-import { LoaderCircle, MoveLeft } from "lucide-react";
+import { Key, LoaderCircle, MoveLeft, User } from "lucide-react";
 import { ThemeToggle } from "@/components/theme-toggle";
 export default function Page() {
   const { toast } = useToast();
@@ -103,6 +103,14 @@ export default function Page() {
                 )}
               </Button>
             </form>
+            <div className=" flex gap-4 p-4 text-xs  text-zinc-600 dark:text-zinc-400">
+              <p className="flex items-center gap-1 font-mono ">
+                <User size={15} /> <span>admin@mail.com</span>
+              </p>
+              <p className="flex items-center gap-1 font-mono">
+                <Key size={15} /> <span>admin.com</span>
+              </p>
+            </div>
           </Form>
         </div>
         <span className="absolute left-5 top-5 text-sm">
