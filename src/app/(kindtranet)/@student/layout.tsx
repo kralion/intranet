@@ -1,4 +1,4 @@
-import Navbar from "@/components/_design_t/shared/navbar";
+import Navbar from "@/components/shared/navbar";
 import React from "react";
 // DOCS: https://nextjs.org/docs/app/building-your-application/routing/parallel-routes#slots
 

@@ -1,5 +1,3 @@
-import UserForm from "@/components/admin/users/form";
-import UsersTable from "@/components/admin/users/table";
 import React from "react";
 
 export default function Page() {
@@ -8,10 +6,10 @@ export default function Page() {
       <div className="hidden flex-col md:flex">
         <div className="flex-1 space-y-4 p-8 pt-6">
           <div className="flex items-center justify-between space-y-2">
-            <h2 className="text-3xl font-bold tracking-tight">Usuarios</h2>
-            <UserForm />
+            <h2 className="text-3xl font-bold tracking-tight">
+              Agregarte a un curso
+            </h2>
           </div>
-          <UsersTable />
         </div>
       </div>
     </div>

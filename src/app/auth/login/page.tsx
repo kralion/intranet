@@ -37,7 +37,7 @@ export default function Page() {
       email: values.email,
       password: values.password,
       redirect: true,
-      callbackUrl: "/report",
+      callbackUrl: "/dashboard",
     });
     setIsLoading(false);
     if (result?.error) {
@@ -52,7 +52,7 @@ export default function Page() {
   return (
     <div className="w-full lg:grid  lg:grid-cols-2">
       <div className="relative flex items-center justify-center py-12">
-        <div className="mx-auto grid w-[350px] gap-10">
+        <div className="mx-auto grid w-[350px] gap-5">
           <div className="grid gap-2 text-center">
             <h1 className="text-3xl font-bold tracking-tight">
               Inicio de Sesión
@@ -103,12 +103,20 @@ export default function Page() {
                 )}
               </Button>
             </form>
-            <div className=" flex gap-4 p-4 text-xs  text-zinc-600 dark:text-zinc-400">
+            <div className=" flex justify-center gap-4 text-xs  text-zinc-600 dark:text-zinc-400">
               <p className="flex items-center gap-1 font-mono ">
-                <User size={15} /> <span>admin@mail.com</span>
+                <User size={15} /> <span>student@mail.com</span>
               </p>
               <p className="flex items-center gap-1 font-mono">
-                <Key size={15} /> <span>admin.com</span>
+                <Key size={15} /> <span>studentuser</span>
+              </p>
+            </div>
+            <div className=" flex justify-center gap-4 text-xs  text-zinc-600 dark:text-zinc-400">
+              <p className="flex items-center gap-1 font-mono ">
+                <User size={15} /> <span>teacher@mail.com</span>
+              </p>
+              <p className="flex items-center gap-1 font-mono">
+                <Key size={15} /> <span>teacheruser</span>
               </p>
             </div>
           </Form>
@@ -119,9 +127,14 @@ export default function Page() {
           </Link>
         </span>
         <span className="absolute bottom-5 left-5 text-sm">
-          <Link href="#" className="underline">
+          <a
+            href="https://grublo.netlify.app"
+            target="_blank"
+            rel="noreferrer"
+            className="underline"
+          >
             Grublo Inc
-          </Link>{" "}
+          </a>{" "}
           - All Rights Reserved &copy; {new Date().getFullYear()}{" "}
         </span>
       </div>

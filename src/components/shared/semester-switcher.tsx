@@ -9,6 +9,7 @@ import {
   CommandInput,
   CommandItem,
   CommandList,
+  CommandSeparator,
 } from "@/components/ui/command";
 import {
   Dialog,
@@ -17,6 +18,7 @@ import {
   DialogFooter,
   DialogHeader,
   DialogTitle,
+  DialogTrigger,
 } from "@/components/ui/dialog";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
@@ -33,7 +35,7 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { cn } from "@/lib/utils";
-import { CheckIcon, ChevronsUpDown } from "lucide-react";
+import { CheckIcon, ChevronsUpDown, PlusCircle } from "lucide-react";
 import * as React from "react";
 
 const groups = [
@@ -55,7 +57,6 @@ const groups = [
     ],
   },
 ];
-
 type Team = (typeof groups)[number]["teams"][number];
 
 type PopoverTriggerProps = React.ComponentPropsWithoutRef<
@@ -64,13 +65,13 @@ type PopoverTriggerProps = React.ComponentPropsWithoutRef<
 
 type TeamSwitcherProps = PopoverTriggerProps;
 
-export default function CourseSwitcher({ className }: TeamSwitcherProps) {
+export default function SemesterSwitcher({ className }: TeamSwitcherProps) {
   const [open, setOpen] = React.useState(false);
-  const defaultTeam = { label: "1° Trimestre", value: "1" };
+  const defaultTeam = { label: "1° Trimestre", value: "1" } as Team;
 
   const [showNewTeamDialog, setShowNewTeamDialog] = React.useState(false);
   const [selectedTeam, setSelectedTeam] = React.useState<Team>(
-    groups?.[0]?.teams?.[0] ?? defaultTeam,
+    groups[0]?.teams[0] ?? defaultTeam,
   );
 
   return (
@@ -86,11 +87,13 @@ export default function CourseSwitcher({ className }: TeamSwitcherProps) {
           >
             <Avatar className="mr-2 h-5 w-5">
               <AvatarImage
-                src={`https://avatar.vercel.sh/${selectedTeam.value}.png`}
+                src="https://img.icons8.com/?size=48&id=UhvCGZLcO5RO&format=png"
                 alt={selectedTeam.label}
                 className="grayscale"
               />
-              <AvatarFallback>SC</AvatarFallback>
+              <AvatarFallback>
+                {selectedTeam.label.charAt(0).toUpperCase()}
+              </AvatarFallback>
             </Avatar>
             {selectedTeam.label}
             <ChevronsUpDown className="ml-auto h-4 w-4 shrink-0 opacity-50" />
@@ -99,6 +102,7 @@ export default function CourseSwitcher({ className }: TeamSwitcherProps) {
         <PopoverContent className="w-[200px] p-0">
           <Command>
             <CommandList>
+              <CommandEmpty>No team found.</CommandEmpty>
               {groups.map((group) => (
                 <CommandGroup key={group.label} heading={group.label}>
                   {group.teams.map((team) => (
@@ -112,7 +116,7 @@ export default function CourseSwitcher({ className }: TeamSwitcherProps) {
                     >
                       <Avatar className="mr-2 h-5 w-5">
                         <AvatarImage
-                          src={`https://avatar.vercel.sh/${team.value}.png`}
+                          src="https://img.icons8.com/?size=48&id=UhvCGZLcO5RO&format=png"
                           alt={team.label}
                           className="grayscale"
                         />
@@ -131,6 +135,22 @@ export default function CourseSwitcher({ className }: TeamSwitcherProps) {
                   ))}
                 </CommandGroup>
               ))}
+            </CommandList>
+            <CommandSeparator />
+            <CommandList>
+              <CommandGroup>
+                <DialogTrigger asChild>
+                  <CommandItem
+                    onSelect={() => {
+                      setOpen(false);
+                      setShowNewTeamDialog(true);
+                    }}
+                  >
+                    <PlusCircle className="mr-2 h-5 w-5" />
+                    Create Team
+                  </CommandItem>
+                </DialogTrigger>
+              </CommandGroup>
             </CommandList>
           </Command>
         </PopoverContent>

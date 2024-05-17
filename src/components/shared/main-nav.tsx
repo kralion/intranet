@@ -4,16 +4,16 @@ import Link from "next/link";
 
 const adminLinks = [
   {
+    href: "/dashboard",
+    label: "Dashboard",
+  },
+  {
     href: "/users",
     label: "Usuarios",
   },
   {
     href: "/courses",
     label: "Cursos",
-  },
-  {
-    href: "/reports",
-    label: "Reportes",
   },
 ];
 
@@ -23,8 +23,16 @@ const teacherLinks = [
     label: "Dashboard",
   },
   {
-    href: "/dashboard",
-    label: "Reportes",
+    href: "/courses",
+    label: "Cursos",
+  },
+  {
+    href: "/signatures",
+    label: "Asignaciones",
+  },
+  {
+    href: "/grades",
+    label: "Calificaciones",
   },
   {
     href: "/profile",
@@ -37,12 +45,12 @@ const studentLinks = [
     label: "Dashboard",
   },
   {
-    href: "/dashboard",
-    label: "Reportes",
+    href: "/courses",
+    label: "Cursos",
   },
   {
-    href: "/profile",
-    label: "Perfil",
+    href: "/grades",
+    label: "Calificaciones",
   },
 ];
 

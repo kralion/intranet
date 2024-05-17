@@ -1,4 +1,3 @@
-import Navbar from "@/components/_design_t/shared/navbar";
 import { getServerAuthSession } from "@/server/auth";
 import React from "react";
 // DOCS: https://nextjs.org/docs/app/building-your-application/routing/parallel-routes#conditional-routes
