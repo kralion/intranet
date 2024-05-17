@@ -5,11 +5,8 @@ import { Button } from "@/components/ui/button";
 import {
   Command,
   CommandEmpty,
-  CommandGroup,
-  CommandInput,
   CommandItem,
   CommandList,
-  CommandSeparator,
 } from "@/components/ui/command";
 import {
   Dialog,
@@ -18,7 +15,6 @@ import {
   DialogFooter,
   DialogHeader,
   DialogTitle,
-  DialogTrigger,
 } from "@/components/ui/dialog";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
@@ -35,29 +31,8 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { cn } from "@/lib/utils";
-import { CheckIcon, ChevronsUpDown, PlusCircle } from "lucide-react";
+import { CheckIcon, ChevronsUpDown } from "lucide-react";
 import * as React from "react";
-
-const groups = [
-  {
-    label: "Trimestres",
-    teams: [
-      {
-        label: "1° Trimestre",
-        value: "1",
-      },
-      {
-        label: "2° Trimestre",
-        value: "2",
-      },
-      {
-        label: "3° Trimestre",
-        value: "3",
-      },
-    ],
-  },
-];
-type Team = (typeof groups)[number]["teams"][number];
 
 type PopoverTriggerProps = React.ComponentPropsWithoutRef<
   typeof PopoverTrigger
@@ -65,14 +40,18 @@ type PopoverTriggerProps = React.ComponentPropsWithoutRef<
 
 type TeamSwitcherProps = PopoverTriggerProps;
 
+type Semester = {
+  label: string;
+  value: string;
+};
+
 export default function SemesterSwitcher({ className }: TeamSwitcherProps) {
   const [open, setOpen] = React.useState(false);
-  const defaultTeam = { label: "1° Trimestre", value: "1" } as Team;
-
   const [showNewTeamDialog, setShowNewTeamDialog] = React.useState(false);
-  const [selectedTeam, setSelectedTeam] = React.useState<Team>(
-    groups[0]?.teams[0] ?? defaultTeam,
-  );
+  const [selectedTeam, setSelectedTeam] = React.useState<Semester>({
+    label: "2° Trimestre",
+    value: "2",
+  });
 
   return (
     <Dialog open={showNewTeamDialog} onOpenChange={setShowNewTeamDialog}>
@@ -89,7 +68,6 @@ export default function SemesterSwitcher({ className }: TeamSwitcherProps) {
               <AvatarImage
                 src="https://img.icons8.com/?size=48&id=UhvCGZLcO5RO&format=png"
                 alt={selectedTeam.label}
-                className="grayscale"
               />
               <AvatarFallback>
                 {selectedTeam.label.charAt(0).toUpperCase()}
@@ -99,58 +77,81 @@ export default function SemesterSwitcher({ className }: TeamSwitcherProps) {
             <ChevronsUpDown className="ml-auto h-4 w-4 shrink-0 opacity-50" />
           </Button>
         </PopoverTrigger>
-        <PopoverContent className="w-[200px] p-0">
+        <PopoverContent className=" w-[200px] p-0">
           <Command>
             <CommandList>
               <CommandEmpty>No team found.</CommandEmpty>
-              {groups.map((group) => (
-                <CommandGroup key={group.label} heading={group.label}>
-                  {group.teams.map((team) => (
-                    <CommandItem
-                      key={team.value}
-                      onSelect={() => {
-                        setSelectedTeam(team);
-                        setOpen(false);
-                      }}
-                      className="text-sm"
-                    >
-                      <Avatar className="mr-2 h-5 w-5">
-                        <AvatarImage
-                          src="https://img.icons8.com/?size=48&id=UhvCGZLcO5RO&format=png"
-                          alt={team.label}
-                          className="grayscale"
-                        />
-                        <AvatarFallback>SC</AvatarFallback>
-                      </Avatar>
-                      {team.label}
-                      <CheckIcon
-                        className={cn(
-                          "ml-auto h-4 w-4",
-                          selectedTeam.value === team.value
-                            ? "opacity-100"
-                            : "opacity-0",
-                        )}
-                      />
-                    </CommandItem>
-                  ))}
-                </CommandGroup>
-              ))}
-            </CommandList>
-            <CommandSeparator />
-            <CommandList>
-              <CommandGroup>
-                <DialogTrigger asChild>
-                  <CommandItem
-                    onSelect={() => {
-                      setOpen(false);
-                      setShowNewTeamDialog(true);
-                    }}
-                  >
-                    <PlusCircle className="mr-2 h-5 w-5" />
-                    Create Team
-                  </CommandItem>
-                </DialogTrigger>
-              </CommandGroup>
+              <CommandItem
+                key="0"
+                onSelect={() => {
+                  setSelectedTeam({ label: "1° Trimestre", value: "1" });
+                  setOpen(false);
+                }}
+                className="text-sm"
+              >
+                <Avatar className="mr-2 h-5 w-5">
+                  <AvatarImage
+                    src="https://img.icons8.com/?size=48&id=UhvCGZLcO5RO&format=png"
+                    alt="1° Trimestre"
+                  />
+                  <AvatarFallback>SC</AvatarFallback>
+                </Avatar>
+                1° Trimestre
+                <CheckIcon
+                  className={cn(
+                    "ml-auto h-4 w-4",
+                    selectedTeam.value === "1" ? "opacity-100" : "opacity-0",
+                  )}
+                />
+              </CommandItem>
+              <CommandItem
+                key="1"
+                onSelect={() => {
+                  setSelectedTeam({ label: "2° Trimestre", value: "2" });
+                  setOpen(false);
+                }}
+                className="text-sm"
+              >
+                <Avatar className="mr-2 h-5 w-5">
+                  <AvatarImage
+                    src="https://img.icons8.com/?size=48&id=UhvCGZLcO5RO&format=png"
+                    alt="2° Trimestre"
+                    className="grayscale"
+                  />
+                  <AvatarFallback>SC</AvatarFallback>
+                </Avatar>
+                2° Trimestre
+                <CheckIcon
+                  className={cn(
+                    "ml-auto h-4 w-4",
+                    selectedTeam.value === "2" ? "opacity-100" : "opacity-0",
+                  )}
+                />
+              </CommandItem>
+              <CommandItem
+                key="2"
+                onSelect={() => {
+                  setSelectedTeam({ label: "3° Trimestre", value: "3" });
+                  setOpen(false);
+                }}
+                className="text-sm"
+              >
+                <Avatar className="mr-2 h-5 w-5">
+                  <AvatarImage
+                    src="https://img.icons8.com/?size=48&id=UhvCGZLcO5RO&format=png"
+                    alt="3° Trimestre"
+                    className="grayscale"
+                  />
+                  <AvatarFallback>SC</AvatarFallback>
+                </Avatar>
+                3° Trimestre
+                <CheckIcon
+                  className={cn(
+                    "ml-auto h-4 w-4",
+                    selectedTeam.value === "3" ? "opacity-100" : "opacity-0",
+                  )}
+                />
+              </CommandItem>
             </CommandList>
           </Command>
         </PopoverContent>
